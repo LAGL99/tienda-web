@@ -32,11 +32,6 @@ function App() {
     }
   ]);
 
-  useEffect(() => {
-    axios.get('https://api.example.com/albums')
-      .then(response => setAlbums(response.data))
-      .catch(error => console.error('Error fetching albums:', error));
-  }, []);
 
   // Agregar álbum (puedes agregar un POST si tienes backend)
   const handleAddAlbum = (album) => {
