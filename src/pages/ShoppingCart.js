@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { FaTrash, FaPlus, FaShareAlt } from "react-icons/fa";
+import { FaTrash,FaMinus, FaPlus, FaShareAlt } from "react-icons/fa";
 
 const Container = styled.div`
   padding: 20px;
@@ -196,8 +196,6 @@ const staticCart = [
   }
 ];
 
-const total = staticCart.reduce((sum, album) => sum + album.price * album.quantity, 0);
-
 const ShoppingCart = () => {
     const [cart, setCart] = useState(staticCart);
 
@@ -210,6 +208,15 @@ const ShoppingCart = () => {
     const handleIncrease = (id) => {
       setCart(cart.map(album =>
         album.id === id ? { ...album, quantity: album.quantity + 1 } : album
+      ));
+    };
+
+    // Disminuir la cantidad de un álbum
+    const handleDecrease = (id) => {
+      setCart(cart.map(album =>
+        album.id === id && album.quantity > 1
+          ? { ...album, quantity: album.quantity - 1 }
+          : album
       ));
     };
 
@@ -244,10 +251,12 @@ const ShoppingCart = () => {
                   </RemoveBtn>
                 </AlbumRow>
                 <ActionsRow>
+                  <QuantityBtn title="Disminuir cantidad" onClick={() => handleDecrease(album.id)}>
+                    <FaMinus />
+                  </QuantityBtn>
                   <QuantityBtn title="Aumentar cantidad" onClick={() => handleIncrease(album.id)}>
                     <FaPlus />
                   </QuantityBtn>
-                  <ActionBtn onClick={() => handleRemove(album.id)}>Eliminar</ActionBtn>
                   <ShareBtn title="Compartir" onClick={() => handleShare(album)}>
                     <FaShareAlt />
                   </ShareBtn>

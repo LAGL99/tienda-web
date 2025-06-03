@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Navbar from './components/Navbar.js';
 import AlbumList from './pages/AlbumList.js';
@@ -7,7 +7,6 @@ import Users from './pages/users';
 import Login from './pages/Login';
 import UserFields from './pages/userFileds';
 import Footer from './components/Footer.js';
-import axios from 'axios';
 import ShoppingCart from './pages/ShoppingCart.js';
 
 function App() {
