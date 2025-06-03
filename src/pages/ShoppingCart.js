@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
-import { FaTrash,FaMinus, FaPlus, FaShareAlt } from "react-icons/fa";
+import { FaTrash, FaPlus, FaShareAlt } from "react-icons/fa";
 
 const Container = styled.div`
   padding: 20px;
@@ -196,48 +196,18 @@ const staticCart = [
   }
 ];
 
+const total = staticCart.reduce((sum, album) => sum + album.price * album.quantity, 0);
+
 const ShoppingCart = () => {
-    const [cart, setCart] = useState(staticCart);
-
-    // Eliminar un álbum del carrito
-    const handleRemove = (id) => {
-      setCart(cart.filter(album => album.id !== id));
-    };
-
-    // Aumentar la cantidad de un álbum
-    const handleIncrease = (id) => {
-      setCart(cart.map(album =>
-        album.id === id ? { ...album, quantity: album.quantity + 1 } : album
-      ));
-    };
-
-    // Disminuir la cantidad de un álbum
-    const handleDecrease = (id) => {
-      setCart(cart.map(album =>
-        album.id === id && album.quantity > 1
-          ? { ...album, quantity: album.quantity - 1 }
-          : album
-      ));
-    };
-
-    // Compartir (ejemplo: copiar info al portapapeles)
-    const handleShare = (album) => {
-      const text = `¡Mira este álbum! ${album.title} de ${album.artist} por $${album.price}`;
-      navigator.clipboard.writeText(text);
-      alert("¡Álbum copiado al portapapeles!");
-    };
-
-    const total = cart.reduce((sum, album) => sum + album.price * album.quantity, 0);
-
   return (
     <Container>
       <CartSection>
         <CartTitle>Shopping Cart</CartTitle>
         <CartList>
-          {cart.length === 0 ? (
+          {staticCart.length === 0 ? (
             <p>Your cart is empty.</p>
           ) : (
-            cart.map(album => (
+            staticCart.map(album => (
               <CartItem key={album.id}>
                 <AlbumRow>
                   <AlbumImg src={album.image} alt={album.title} />
@@ -246,18 +216,16 @@ const ShoppingCart = () => {
                     <AlbumArtist>{album.artist}</AlbumArtist>
                     <AlbumPrice>${album.price} x {album.quantity}</AlbumPrice>
                   </AlbumInfo>
-                  <RemoveBtn title="Eliminar del carrito" onClick={() => handleRemove(album.id)}>
+                  <RemoveBtn title="Eliminar del carrito">
                     <FaTrash />
                   </RemoveBtn>
                 </AlbumRow>
                 <ActionsRow>
-                  <QuantityBtn title="Disminuir cantidad" onClick={() => handleDecrease(album.id)}>
-                    <FaMinus />
-                  </QuantityBtn>
-                  <QuantityBtn title="Aumentar cantidad" onClick={() => handleIncrease(album.id)}>
+                  <QuantityBtn title="Aumentar cantidad">
                     <FaPlus />
                   </QuantityBtn>
-                  <ShareBtn title="Compartir" onClick={() => handleShare(album)}>
+                  <ActionBtn>Eliminar</ActionBtn>
+                  <ShareBtn title="Compartir">
                     <FaShareAlt />
                   </ShareBtn>
                 </ActionsRow>
