@@ -66,13 +66,13 @@ const Navbar = () => {
         <Brand>🎶 Music Store</Brand>
         <NavLinks>
           <StyledNavLink to="/" end>
-            Album List
+            Álbumes Disponibles
           </StyledNavLink>
           <StyledNavLink to="/new">
-            New Album
+            Agregar Álbum
           </StyledNavLink>
           <StyledNavLink to="/cart">
-            Shopping Cart
+            Carrito de Compras
             <FaShoppingCart style={{ marginLeft: '1rem' }} />
           </StyledNavLink>
           <StyledNavLink to="/login">
