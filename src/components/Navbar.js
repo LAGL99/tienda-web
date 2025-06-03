@@ -58,6 +58,9 @@ const StyledNavLink = styled(NavLink)`
     color: #bdc3c7;
   }
 `;
+const LoginNavLink = styled(StyledNavLink)`
+  margin-left: 2.5rem;
+`;
 
 const Navbar = () => {
   return (
@@ -75,6 +78,9 @@ const Navbar = () => {
             Shopping Cart
             <FaShoppingCart style={{ marginLeft: '1rem' }} />
           </StyledNavLink>
+          <LoginNavLink to="/login">
+            Log in
+          </LoginNavLink>
         </NavLinks>
       </NavContainer>
     </Nav>

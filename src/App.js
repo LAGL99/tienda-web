@@ -3,9 +3,12 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Navbar from './components/Navbar.js';
 import AlbumList from './pages/AlbumList.js';
 import NewAlbum from './pages/NewAlbum.js';
-import Footer from './components/Footer.js'; // <-- Importa el Footer
+import Users from './pages/users';
+import Login from './pages/Login';
+import UserFields from './pages/userFileds';
+import Footer from './components/Footer.js';
 import axios from 'axios';
-import ShoppingCart from './pages/ShoppingCart.js'; // Asegúrate de importar el componente
+import ShoppingCart from './pages/ShoppingCart.js';
 
 function App() {
   const [albums, setAlbums] = useState([
@@ -16,7 +19,7 @@ function App() {
       genre: "Rock",
       price: 199.99,
       stock: 10,
-      image: "https://via.placeholder.com/320x200?text=Álbum+1"
+      image: "https://media.istockphoto.com/id/1308631663/es/foto/banda-de-m%C3%BAsica-rock-actuando-con-guitarrista-femenina-baterista-y-cantante-masculino.jpg?s=612x612&w=0&k=20&c=vjt7ms21rAw6zDsQctb8SreHGgu9rC_ER7pGY7hxhYQ="
     },
     {
       id: 2,
@@ -25,7 +28,7 @@ function App() {
       genre: "Pop",
       price: 149.99,
       stock: 5,
-      image: "https://via.placeholder.com/320x200?text=Álbum+2"
+      image: "https://www.clarin.com/2021/12/28/Ky0b4DU5C_360x240__1.jpg"
     }
   ]);
 
@@ -35,33 +38,50 @@ function App() {
       .catch(error => console.error('Error fetching albums:', error));
   }, []);
 
+  // Agregar álbum (puedes agregar un POST si tienes backend)
   const handleAddAlbum = (album) => {
     setAlbums([...albums, { ...album, id: albums.length + 1 }]);
   };
 
+  // Eliminar álbum
   const deleteAlbum = (id) => {
-    axios.delete(`https://api.example.com/albums/${id}`)
-      .then(() => {
-        setAlbums(albums.filter(album => album.id !== id));
-      })
-      .catch(error => console.error('Error deleting album:', error));
+    setAlbums(albums.filter(album => album.id !== id));
   };
 
- return (
-  <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
-    <Router>
-      <Navbar />
-      <div style={{ flex: 1 }}>
-        <Routes>
-          <Route path="/" element={<AlbumList albumsList={albums} onDelete={deleteAlbum} />} />
-          <Route path="/new" element={<NewAlbum onAdd={handleAddAlbum} />} />
-          <Route path="/cart" element={<ShoppingCart albums={albums} />} />
-        </Routes>
-      </div>
-      <Footer />
-    </Router>
-  </div>
-);
+  // Editar álbum (opcional, si implementas edición)
+  const handleEditAlbum = (editedAlbum) => {
+    setAlbums(albums.map(album =>
+      album.id === editedAlbum.id ? editedAlbum : album
+    ));
+  };
+
+  return (
+    <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
+      <Router>
+        <Navbar />
+        <div style={{ flex: 1 }}>
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <AlbumList
+                  albumsList={albums}
+                  onDelete={deleteAlbum}
+                  onEdit={handleEditAlbum}
+                />
+              }
+            />
+            <Route path="/new" element={<NewAlbum onAdd={handleAddAlbum} />} />
+            <Route path="/cart" element={<ShoppingCart albums={albums} />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/users" element={<Users />} />
+            <Route path="/userfields" element={<UserFields />} />
+          </Routes>
+        </div>
+        <Footer />
+      </Router>
+    </div>
+  );
 }
 
 export default App;
