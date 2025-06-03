@@ -5,6 +5,7 @@ import AlbumList from './pages/AlbumList.js';
 import NewAlbum from './pages/NewAlbum.js';
 import Footer from './components/Footer.js'; // <-- Importa el Footer
 import axios from 'axios';
+import ShoppingCart from './pages/ShoppingCart.js'; // Asegúrate de importar el componente
 
 function App() {
   const [albums, setAlbums] = useState([
@@ -46,16 +47,21 @@ function App() {
       .catch(error => console.error('Error deleting album:', error));
   };
 
-  return (
+ return (
+  <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
     <Router>
       <Navbar />
-      <Routes>
-        <Route path="/" element={<AlbumList albumsList={albums} onDelete={deleteAlbum} />} />
-        <Route path="/new" element={<NewAlbum onAdd={handleAddAlbum} />} />
-      </Routes>
-      <Footer /> {/* <-- Agrega el Footer aquí */}
+      <div style={{ flex: 1 }}>
+        <Routes>
+          <Route path="/" element={<AlbumList albumsList={albums} onDelete={deleteAlbum} />} />
+          <Route path="/new" element={<NewAlbum onAdd={handleAddAlbum} />} />
+          <Route path="/cart" element={<ShoppingCart albums={albums} />} />
+        </Routes>
+      </div>
+      <Footer />
     </Router>
-  );
+  </div>
+);
 }
 
 export default App;

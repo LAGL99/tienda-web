@@ -5,9 +5,8 @@ import { FaWhatsapp, FaFacebook, FaInstagram, FaEnvelope } from "react-icons/fa"
 const FooterContainer = styled.footer`
   background: #2c3e50;
   color: #fff;
-  padding: 1.5rem 0;
+  padding: 1rem;
   text-align: center;
-  margin-top: 2rem;
 `;
 
 const Icons = styled.div`

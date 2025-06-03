@@ -1,5 +1,7 @@
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
+import { FaShoppingCart } from 'react-icons/fa';
+
 
 const Nav = styled.nav`
   background-color: #2c3e50; /* Dark blue */
@@ -68,6 +70,10 @@ const Navbar = () => {
           </StyledNavLink>
           <StyledNavLink to="/new">
             New Album
+          </StyledNavLink>
+          <StyledNavLink to="/cart">
+            Shopping Cart
+            <FaShoppingCart style={{ marginLeft: '1rem' }} />
           </StyledNavLink>
         </NavLinks>
       </NavContainer>
