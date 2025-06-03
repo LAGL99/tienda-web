@@ -37,12 +37,12 @@ const Footer = () => (
       <IconLink href="https://instagram.com/empresa.ejemplo" target="_blank" rel="noopener noreferrer" title="Instagram">
         <FaInstagram />
       </IconLink>
-      <IconLink href="mailto:contacto@empresa.com" title="Gmail">
+      <IconLink href="mailto:aljaarellanoga@ittepic.edu.mx" title="Gmail">
         <FaEnvelope />
       </IconLink>
     </Icons>
-    <div>Contáctanos: WhatsApp +52 123 456 7890 · Facebook/Instagram: @empresa.ejemplo · Email: contacto@empresa.com</div>
-    <div style={{marginTop: "0.5rem", fontSize: "0.9rem"}}>© 2025 Music Store. Todos los derechos reservados.</div>
+  
+    <div style={{marginTop: "0.5rem", fontSize: "0.9rem"}}>© 2025 Music Store</div>
   </FooterContainer>
 );
 

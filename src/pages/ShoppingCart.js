@@ -1,249 +1,168 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import { FaTrash, FaPlus, FaShareAlt } from "react-icons/fa";
 
-const Container = styled.div`
-  padding: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start; // <-- Alinea arriba ambos contenedores
-  gap: 0.5rem;
-  flex-wrap: wrap;
-`;
-
-const CartSection = styled.div`
-  flex: 2;
-  min-width: 340px;
+const CartContainer = styled.div`
+  max-width: 700px;
+  margin: 2.5rem auto;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 6px 32px rgba(44, 62, 80, 0.10);
+  padding: 2.5rem 2rem;
 `;
 
 const CartTitle = styled.h2`
   text-align: center;
-`;
-
-const CartList = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  color: #22223b;
+  margin-bottom: 2rem;
+  letter-spacing: 1px;
 `;
 
 const CartItem = styled.div`
   display: flex;
-  flex-direction: column;
-  background: #232b36;
-  border-radius: 10px;
-  padding: 1rem 2rem;
-  margin-bottom: 1.5rem;
-  width: 100%;
-  max-width: 500px;
-  box-shadow: 0 2px 8px rgba(44, 62, 80, 0.08);
-  transition: box-shadow 0.3s, transform 0.3s;
-
-  &:hover {
-    box-shadow: 0 8px 24px rgba(44, 62, 80, 0.18);
-    transform: translateY(-8px) scale(1.03);
-  }
-`;
-
-const AlbumRow = styled.div`
-  display: flex;
   align-items: center;
-  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid #ececec;
+  padding-bottom: 1.2rem;
+  gap: 1.2rem;
 `;
 
-const AlbumImg = styled.img`
-  width: 80px;
-  height: 80px;
+const AlbumImage = styled.img`
+  width: 90px;
+  height: 70px;
   object-fit: cover;
-  border-radius: 6px;
+  border-radius: 10px;
+  background: #f6f6f6;
+  box-shadow: 0 2px 8px rgba(44, 62, 80, 0.07);
 `;
 
 const AlbumInfo = styled.div`
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
 `;
 
 const AlbumTitle = styled.div`
   font-weight: bold;
-  color: #fff;
-`;
-
-const AlbumArtist = styled.div`
-  color: #bbb;
-  font-size: 0.95rem;
-`;
-
-const AlbumPrice = styled.div`
-  font-weight: bold;
-  color: #4fc3f7;
-`;
-
-const ActionsRow = styled.div`
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 1.2rem;
-  margin-top: 0.7rem;
-`;
-
-const ActionBtn = styled.button`
-  background: none;
-  border: none;
-  color: #fff;
-  font-size: 1.2rem;
-  cursor: pointer;
-  padding: 0.3rem 0.7rem;
-  border-radius: 4px;
-  transition: background 0.2s;
-  &:hover {
-    background: #34495e;
-  }
-`;
-
-const RemoveBtn = styled(ActionBtn)`
-  color: #e74c3c;
-  &:hover {
-    background: #e74c3c22;
-  }
-`;
-
-const ShareBtn = styled(ActionBtn)`
-  color: #4fc3f7;
-  &:hover {
-    background: #4fc3f722;
-  }
-`;
-
-const QuantityBtn = styled(ActionBtn)`
-  color: #2ecc40;
+  color: #22223b;
   font-size: 1.1rem;
 `;
 
-const SummarySection = styled.div`
-  flex: 1;
-  min-width: 260px;
-  background: #232b36; // <-- Igual que CartItem
-  border-radius: 10px;
-  padding: 2rem 1.5rem;
-  height: fit-content;
-  box-shadow: 0 2px 8px rgba(44, 62, 80, 0.08);
-  display: flex;
-  flex-direction: column;
-  color: #fff; // Texto blanco para contraste
-  margin-top: 4.3rem; // <-- Agrega esta línea para separar del top
+const AlbumArtist = styled.div`
+  color: #4a4e69;
+  font-size: 0.98rem;
 `;
 
-const SummaryTitle = styled.h3`
-  margin-bottom: 1rem;
-  color: #fff; // Título blanco
+const AlbumDetails = styled.div`
+  color: #9a8c98;
+  font-size: 0.95rem;
+`;
+
+const Quantity = styled.div`
+  font-size: 1rem;
+  color: #0077cc;
+  font-weight: 600;
+`;
+
+const RemoveButton = styled.button`
+  background: #c0392b;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 0.5rem 1.1rem;
+  margin-left: 1rem;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1rem;
+  transition: background 0.2s;
+  &:hover {
+    background: #e74c3c;
+  }
 `;
 
 const TotalRow = styled.div`
   display: flex;
-  justify-content: space-between;
-  font-size: 1.2rem;
+  justify-content: flex-end;
+  align-items: center;
+  margin-top: 2rem;
+  font-size: 1.3rem;
   font-weight: bold;
-  color: #4fc3f7; // Igual que el precio de los álbumes
+  color: #22223b;
 `;
 
-const PayBtn = styled.button`
-  background: #2980b9;
+const EmptyCart = styled.p`
+  text-align: center;
+  color: #9a8c98;
+  font-size: 1.1rem;
+  margin-top: 2rem;
+`;
+
+const BuyButton = styled.button`
+  background: #22223b;
   color: #fff;
   border: none;
-  border-radius: 6px;
-  padding: 0.8rem 1.2rem;
+  border-radius: 8px;
+  padding: 0.9rem 2.2rem;
+  margin: 2rem auto 0 auto;
+  display: block;
   font-size: 1.1rem;
-  font-weight: 600;
+  font-weight: bold;
   cursor: pointer;
-  margin-top: 1.5rem;
   transition: background 0.2s;
   &:hover {
-    background: #1a5a85;
+    background: #4a4e69;
   }
 `;
 
+const ThankYou = styled.div`
+  text-align: center;
+  color: #0077cc;
+  font-size: 1.3rem;
+  margin-top: 2.5rem;
+  font-weight: bold;
+`;
 
-const staticCart = [
-  {
-    id: 1,
-    title: "Álbum 1",
-    artist: "Artista 1",
-    price: 199.99,
-    image: "https://i.scdn.co/image/ab67616d0000b273005ee342f4eef2cc6e8436ab",
-    quantity: 1
-  },
-  {
-    id: 2,
-    title: "Álbum 2",
-    artist: "Artista 2",
-    price: 149.99,
-    image: "https://i.scdn.co/image/ab67616d0000b273548f7ec52da7313de0c5e4a0",
-    quantity: 2
-  },
-  {
-    id: 3,
-    title: "Álbum 3",
-    artist: "Artista 3",
-    price: 199.99,
-    image: "https://i.scdn.co/image/ab67616d0000b273bbd45c8d36e0e045ef640411",
-    quantity: 1
-  },
-  {
-    id: 4,
-    title: "Álbum 4",
-    artist: "Artista 4",
-    price: 149.99,
-    image: "https://i.scdn.co/image/ab67616d00001e0272d0efdc962fe7a710bffd21",
-    quantity: 2
+const ShoppingCart = ({ cart, onRemove, onClearCart }) => {
+  const [showThankYou, setShowThankYou] = useState(false);
+  const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
+  const handleBuy = () => {
+    setShowThankYou(true);
+    if (onClearCart) onClearCart(); // Vacía el carrito después de comprar
+  };
+
+  if (showThankYou) {
+    return (
+      <CartContainer>
+        <ThankYou>¡Gracias por tu compra! 🎉</ThankYou>
+      </CartContainer>
+    );
   }
-];
 
-const total = staticCart.reduce((sum, album) => sum + album.price * album.quantity, 0);
-
-const ShoppingCart = () => {
   return (
-    <Container>
-      <CartSection>
-        <CartTitle>Shopping Cart</CartTitle>
-        <CartList>
-          {staticCart.length === 0 ? (
-            <p>Your cart is empty.</p>
-          ) : (
-            staticCart.map(album => (
-              <CartItem key={album.id}>
-                <AlbumRow>
-                  <AlbumImg src={album.image} alt={album.title} />
-                  <AlbumInfo>
-                    <AlbumTitle>{album.title}</AlbumTitle>
-                    <AlbumArtist>{album.artist}</AlbumArtist>
-                    <AlbumPrice>${album.price} x {album.quantity}</AlbumPrice>
-                  </AlbumInfo>
-                  <RemoveBtn title="Eliminar del carrito">
-                    <FaTrash />
-                  </RemoveBtn>
-                </AlbumRow>
-                <ActionsRow>
-                  <QuantityBtn title="Aumentar cantidad">
-                    <FaPlus />
-                  </QuantityBtn>
-                  <ActionBtn>Eliminar</ActionBtn>
-                  <ShareBtn title="Compartir">
-                    <FaShareAlt />
-                  </ShareBtn>
-                </ActionsRow>
-              </CartItem>
-            ))
-          )}
-        </CartList>
-      </CartSection>
-      <SummarySection>
-        <CartTitle>Resumen</CartTitle>
-        <SummaryTitle>Detalles de compra</SummaryTitle>
-        <TotalRow>
-          <span>Total:</span>
-          <span>${total.toFixed(2)}</span>
-        </TotalRow>
-        <PayBtn>Pagar</PayBtn>
-      </SummarySection>
-    </Container>
+    <CartContainer>
+      <CartTitle>🛒 Carrito de Compras</CartTitle>
+      {cart.length === 0 ? (
+        <EmptyCart>Tu carrito está vacío.</EmptyCart>
+      ) : (
+        <>
+          {cart.map(item => (
+            <CartItem key={item.id}>
+              <AlbumImage src={item.image} alt={item.title} />
+              <AlbumInfo>
+                <AlbumTitle>{item.title}</AlbumTitle>
+                <AlbumArtist>Artista: {item.artist}</AlbumArtist>
+                <AlbumDetails>Precio: ${item.price}</AlbumDetails>
+                <Quantity>Cantidad: {item.quantity}</Quantity>
+              </AlbumInfo>
+              <RemoveButton onClick={() => onRemove(item.id)}>Eliminar</RemoveButton>
+            </CartItem>
+          ))}
+          <TotalRow>Total: ${total.toFixed(2)}</TotalRow>
+          <BuyButton onClick={handleBuy}>Comprar</BuyButton>
+        </>
+      )}
+    </CartContainer>
   );
 };
 
