@@ -114,7 +114,7 @@ function UserFields() {
             let response;
             if (isEdit) {
                 // Si es un usuario existente, realiza una solicitud PUT
-                response = await fetch(`http://localhost:3001/users/${user._id}`, {
+                response = await fetch(`https://api-dsw.vercel.app/users/${user._id}`, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json'
@@ -123,7 +123,7 @@ function UserFields() {
                 });
             } else {
                 // Si es un nuevo usuario, realiza una solicitud POST
-                response = await fetch('http://localhost:3001/users', {
+                response = await fetch('https://api-dsw.vercel.app/users', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -134,7 +134,7 @@ function UserFields() {
             // Procesa la respuesta de la API
             if (response.ok) {
                 // Si la respuesta es exitosa, redirige al usuario a la página principal
-                navigate('/', { state: { user } });
+                navigate('/users', { state: { user } });
                 alert(isEdit ? 'Usuario actualizado correctamente' : 'Usuario creado correctamente');
             } else {
                 alert('Error al guardar usuario');

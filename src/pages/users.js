@@ -108,7 +108,7 @@ function Users() {
         // Obtiene el token de autenticación
         const token = getToken();
         // Realiza la solicitud a la API para obtener los usuarios
-        fetch('http://localhost:3001/users', {
+        fetch('https://api-dsw.vercel.app/users', {
             headers: {
                 'authorization': token,
                 'Content-Type': 'application/json'
@@ -129,7 +129,7 @@ function Users() {
     if (window.confirm(`¿Seguro que deseas eliminar a ${user.userName}?`)) {
         try {
             // Realiza la solicitud DELETE a la API
-            const response = await fetch(`http://localhost:3001/users/${user._id}`, {
+            const response = await fetch(`https://api-dsw.vercel.app/users/${user._id}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json'
