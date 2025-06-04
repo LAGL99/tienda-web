@@ -39,6 +39,9 @@ El proyecto utiliza React, React Router, Styled Components y otras librerías mo
 ## Deploy
    https://tienda-web-gilt.vercel.app
 
+**Link de el video**
+https://drive.google.com/file/d/18FIQZg2WZrWEB7ecm8dKq5FXCYst6Jja/view?usp=sharing
+
 ## 👥 Integrantes
 
 - **21400702** — Hernandez Samaniega Oscar Gabriel  
